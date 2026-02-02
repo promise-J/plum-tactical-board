@@ -1,0 +1,53 @@
+.tactics-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: white; /* pitch fallback */
+  overflow: hidden;
+  outline: 3px solid red;
+  /* z-index: 3; */
+}
+
+/* PITCH IMAGE */
+.pitch-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: contain;
+  z-index: 1;
+  pointer-events: none;
+}
+/* CANVAS */
+.tactics-canvas {
+  position: absolute;
+  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.toolbar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.toolbar button {
+  padding: 6px 10px;
+  border: none;
+  background: #222;
+  color: white;
+  cursor: pointer;
+}
+
+.toolbar button.active {
+  background: #ff3b3b;
+}

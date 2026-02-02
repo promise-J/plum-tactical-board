@@ -1,0 +1,40 @@
+<svg viewBox="0 0 525 680" width="525" height="680" xmlns="http://www.w3.org/2000/svg">
+  <!-- Field base - natural medium green -->
+  <rect width="525" height="680" fill="#4a7c2e"/>
+
+  <!-- Subtle mowing stripes (alternating slightly darker green) -->
+  <g fill="#406923" fill-opacity="0.22">
+    <rect x="0" y="0"   width="525" height="85"/>
+    <rect x="0" y="170" width="525" height="85"/>
+    <rect x="0" y="340" width="525" height="85"/>
+    <rect x="0" y="510" width="525" height="85"/>
+  </g>
+
+  <!-- All white markings (FIFA-ish proportions, half pitch from center to one goal) -->
+  <g fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round">
+
+    <!-- Outer perimeter for this half (touchlines, goal line, halfway as top) -->
+    <rect x="37.5" y="40" width="450" height="600"/>
+    <line x1="37.5" y1="40" x2="487.5" y2="40"/> <!-- halfway line as top boundary -->
+
+    <!-- Half of center circle (only the relevant semicircle portion) -->
+    <path d="M 262.5 40 A 91 91 0 0 1 262.5 220" /> <!-- lower half-circle from halfway -->
+    <circle cx="262.5" cy="220" r="6" fill="#ffffff"/> <!-- center mark / kick-off spot -->
+
+    <!-- Penalty area (16.5m depth scaled) -->
+    <rect x="37.5" y="164" width="450" height="176" /> <!-- adjusted for half view centering -->
+
+    <!-- Goal area (5.5m box) -->
+    <rect x="37.5" y="220" width="450" height="120" /> <!-- centered proportionally -->
+
+    <!-- Penalty mark (11m from goal line) -->
+    <circle cx="262.5" cy="340" r="6" fill="#ffffff"/>
+
+    <!-- Penalty arc (part of the 9.15m radius arc) -->
+    <path d="M 262.5 340 A 91 91 0 0 1 262.5 340" /> <!-- full arc for diagram clarity -->
+
+    <!-- Goal (simple internal representation, 7.32m wide scaled) -->
+    <rect x="37.5" y="245" width="450" height="95" /> <!-- goal frame area -->
+    <line x1="112.5" y1="640" x2="412.5" y2="640" stroke-width="8"/> <!-- goal line crossbar sim -->
+  </g>
+</svg>

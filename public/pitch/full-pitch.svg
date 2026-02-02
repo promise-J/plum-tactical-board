@@ -1,0 +1,46 @@
+<svg viewBox="0 0 1050 680" width="1050" height="680" xmlns="http://www.w3.org/2000/svg">
+  <!-- Field base - natural medium green -->
+  <rect width="1050" height="680" fill="#4a7c2e"/>
+
+  <!-- Subtle mowing stripes (alternating slightly darker green) -->
+  <g fill="#406923" fill-opacity="0.22">
+    <rect x="0" y="0"   width="1050" height="85" />
+    <rect x="0" y="170" width="1050" height="85" />
+    <rect x="0" y="340" width="1050" height="85" />
+    <rect x="0" y="510" width="1050" height="85" />
+  </g>
+
+  <!-- Outer boundary + all white lines (FIFA standard-ish proportions scaled) -->
+  <g fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round">
+
+    <!-- Outer perimeter -->
+    <rect x="75" y="40" width="900" height="600" />
+
+    <!-- Halfway line -->
+    <line x1="525" y1="40" x2="525" y2="640" />
+
+    <!-- Center circle & center mark -->
+    <circle cx="525" cy="340" r="91" />
+    <circle cx="525" cy="340" r="6" fill="#ffffff" />
+
+    <!-- Penalty areas (16.5 m / wider & shallower look) -->
+    <rect x="75"  y="164" width="275" height="352" />
+    <rect x="700" y="164" width="275" height="352" />
+
+    <!-- Goal areas (5.5 m boxes) -->
+    <rect x="75"  y="220" width="110" height="240" />
+    <rect x="865" y="220" width="110" height="240" />
+
+    <!-- Penalty marks -->
+    <circle cx="225" cy="340" r="6" fill="#ffffff" />
+    <circle cx="825" cy="340" r="6" fill="#ffffff" />
+
+    <!-- Penalty arcs -->
+    <path d="M 225 340 A 91 91 0 0 1 225 340" />
+    <path d="M 825 340 A 91 91 0 0 0 825 340" transform="scale(-1,1) translate(-1650,0)" />
+
+    <!-- Goals (simple internal frame representation) -->
+    <rect x="65"  y="245" width="10" height="190" />
+    <rect x="975" y="245" width="10" height="190" />
+  </g>
+</svg>
