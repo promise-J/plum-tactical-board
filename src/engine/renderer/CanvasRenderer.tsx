@@ -1,5 +1,6 @@
 // src/engine/renderer/CanvasRenderer.ts
 import { BaseObject } from "../objects/BaseObject";
+import { Player } from "../objects/Player";
 import type { Tool } from "../tools/Tool";
 
 export class CanvasRenderer {
@@ -10,12 +11,15 @@ export class CanvasRenderer {
   private hoveredObject: BaseObject | null = null;
   private undoStack: BaseObject[][] = [];
   private redoStack: BaseObject[][] = [];
+  private onPlayerSelect?: (player: Player) => void;
+  private onModalCancel?: () => void; 
+  private lastClickTime = 0; 
+  private lastClickedPlayer: Player | null = null;  
 
   constructor(private canvas: HTMLCanvasElement) {
     const context = canvas.getContext("2d");
     if (!context) throw new Error("Canvas unsupported");
     this.ctx = context;
-
     this.bindEvents();
   }
 
@@ -24,9 +28,119 @@ export class CanvasRenderer {
     return this.selected;
   }
 
+  getCtx(){
+    return this.ctx
+  }
+
+  private clearSelection() {
+    if (this.selected) {
+      this.selected.isSelected = false;
+      this.selected = null;
+    }
+  }
+
+  // Select object
+  private selectObject(obj: BaseObject | null) {
+    this.clearSelection();
+    if (obj) {
+      obj.isSelected = true;
+      this.selected = obj;
+    }
+  }
+
+  // Convert mouse event to canvas coordinates
+  private getPos(e: MouseEvent) {
+    const rect = this.canvas.getBoundingClientRect();
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  // Bind mouse and keyboard events
+  private bindEvents() {
+    // Mouse down
+    this.canvas.addEventListener("mousedown", (e) => {
+      const { x, y } = this.getPos(e);
+      const now = Date.now();
+      const hit = this.getObjectAt(x, y);
+      this.selectObject(hit || null);
+
+      if (hit instanceof Player) {
+        if (now - this.lastClickTime < 300 && this.lastClickedPlayer === hit) {  // 300ms threshold
+          this.onPlayerSelect?.(hit);  // Trigger edit modal
+          return;  // Prevent tool action
+        }
+        this.lastClickTime = now;
+        this.lastClickedPlayer = hit;
+      }
+
+      this.activeTool?.onMouseDown(x, y);
+    });
+
+    // Mouse move
+    this.canvas.addEventListener("mousemove", (e) => {
+      const { x, y } = this.getPos(e);
+
+      // Hover logic
+      const hit = this.getObjectAt(x, y);
+      if (hit && hit.draggable) {
+        this.hoveredObject = hit;
+        hit.isHovered = true
+        this.canvas.style.cursor = "pointer";
+      } else {
+        this.hoveredObject = null;
+        this.canvas.style.cursor = "default";
+      }
+
+      this.activeTool?.onMouseMove(x, y);
+    });
+
+    // Mouse up
+    this.canvas.addEventListener("mouseup", (e) => {
+      const { x, y } = this.getPos(e);
+      this.activeTool?.onMouseUp(x, y);
+
+      // Save state after finishing a drag or draw
+      // this.saveState();
+    });
+
+    // Keyboard events
+    window.addEventListener("keydown", (e) => {
+      // Delete selected object
+      if (e.key === "Backspace" && this.selected) {
+        this.saveState();
+        this.objects = this.objects.filter((o) => o !== this.selected);
+        this.selected = null;
+        this.render();
+      }
+
+      // Undo: Ctrl+Z
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        this.undo();
+      }
+
+      // Redo: Ctrl+Y or Ctrl+Shift+Z
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (e.key.toLowerCase() === "y" ||
+          (e.shiftKey && e.key.toLowerCase() === "z"))
+      ) {
+        e.preventDefault();
+        this.redo();
+      }
+    });
+  }
+
   // Set current tool (e.g., ArrowTool)
   setTool(tool: Tool | null) {
     this.activeTool = tool;
+  }
+
+  setOnPlayerSelect(callback: (player: Player) => void) {
+    this.onPlayerSelect = callback;
+  }
+
+  setOnModalCancel(callback: () => void) {
+    this.onModalCancel = callback;
   }
 
   // Find the top-most object at a given position
@@ -34,8 +148,22 @@ export class CanvasRenderer {
     return [...this.objects].reverse().find((o) => o.isHit(x, y)) || null;
   }
 
+  public getObjects() {
+    return this.objects;
+  }
+
+  public triggerModalCancel() {
+    this.onModalCancel?.();
+  }
+
+  public clearTheSelection() {
+    this.objects.forEach(o => (o.isSelected = false));
+    this.selected = null;
+    this.render();
+  }
+
   // Add new object
-  addObject(obj: BaseObject) {
+  public addObject(obj: BaseObject) {
     if (this.objects.includes(obj)) return;
     this.saveState(); // 🔥 save previous state for undo
     this.objects.push(obj);
@@ -107,7 +235,12 @@ export class CanvasRenderer {
     const snapshot = this.objects
       .filter(o => o.undoable)
       .map(o => o.clone());
+
+      const selectedIds = this.objects
+      .filter(o => o.isSelected)
+      .map(o => o.id);
   
+      // this.undoStack.push({ objects: snapshot, selectedIds });
     this.undoStack.push(snapshot);
     this.redoStack = [];
   }
@@ -148,91 +281,5 @@ export class CanvasRenderer {
   
 
   // Clear current selection
-  private clearSelection() {
-    if (this.selected) {
-      this.selected.isSelected = false;
-      this.selected = null;
-    }
-  }
-
-  // Select object
-  private selectObject(obj: BaseObject | null) {
-    this.clearSelection();
-    if (obj) {
-      obj.isSelected = true;
-      this.selected = obj;
-    }
-  }
-
-  // Convert mouse event to canvas coordinates
-  private getPos(e: MouseEvent) {
-    const rect = this.canvas.getBoundingClientRect();
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  }
-
-  // Bind mouse and keyboard events
-  private bindEvents() {
-    // Mouse down
-    this.canvas.addEventListener("mousedown", (e) => {
-      const { x, y } = this.getPos(e);
-      this.saveState();
-      const hit = this.getObjectAt(x, y);
-      this.selectObject(hit || null);
-      this.activeTool?.onMouseDown(x, y);
-    });
-
-    // Mouse move
-    this.canvas.addEventListener("mousemove", (e) => {
-      const { x, y } = this.getPos(e);
-
-      // Hover logic
-      const hit = this.getObjectAt(x, y);
-      if (hit && hit.draggable) {
-        this.hoveredObject = hit;
-        hit.isHovered = true
-        this.canvas.style.cursor = "pointer";
-      } else {
-        this.hoveredObject = null;
-        this.canvas.style.cursor = "default";
-      }
-
-      this.activeTool?.onMouseMove(x, y);
-    });
-
-    // Mouse up
-    this.canvas.addEventListener("mouseup", (e) => {
-      const { x, y } = this.getPos(e);
-      this.activeTool?.onMouseUp(x, y);
-
-      // Save state after finishing a drag or draw
-      this.saveState();
-    });
-
-    // Keyboard events
-    window.addEventListener("keydown", (e) => {
-      // Delete selected object
-      if (e.key === "Backspace" && this.selected) {
-        this.saveState();
-        this.objects = this.objects.filter((o) => o !== this.selected);
-        this.selected = null;
-        this.render();
-      }
-
-      // Undo: Ctrl+Z
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
-        e.preventDefault();
-        this.undo();
-      }
-
-      // Redo: Ctrl+Y or Ctrl+Shift+Z
-      if (
-        (e.ctrlKey || e.metaKey) &&
-        (e.key.toLowerCase() === "y" ||
-          (e.shiftKey && e.key.toLowerCase() === "z"))
-      ) {
-        e.preventDefault();
-        this.redo();
-      }
-    });
-  }
+  
 }

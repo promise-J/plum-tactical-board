@@ -40,3 +40,19 @@
 .read-the-docs {
   color: #888;
 }
+
+
+@keyframes dropdown {
+  from {
+    opacity: 0;
+    transform: scaleY(0.95) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+  }
+}
+
+.animate-dropdown {
+  animation: dropdown 0.2s ease-out;
+}

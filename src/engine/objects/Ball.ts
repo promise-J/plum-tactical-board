@@ -3,9 +3,10 @@ import { BaseObject } from "./BaseObject";
 
 export class Ball extends BaseObject {
   constructor(id: string, x: number, y: number) {
-    super(id, x, y, 8);
+    super(id, x, y, 10);
     this.draggable = true;
     this.selectable = true;
+    this.undoable = false;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -19,9 +20,9 @@ export class Ball extends BaseObject {
     );
   
     // Classic white ball shading
-    gradient.addColorStop(0, "#FFFFFF"); // highlight
+    gradient.addColorStop(0, "#000000"); // highlight
     gradient.addColorStop(0.7, "#E0E0E0"); // soft gray middle
-    gradient.addColorStop(1, "#C0C0C0"); // darker edge
+    gradient.addColorStop(1, "#0000FF"); // darker edge
   
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);

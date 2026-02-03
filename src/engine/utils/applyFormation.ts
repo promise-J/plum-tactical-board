@@ -4,6 +4,7 @@ export interface FormationSlot {
   x: number; // normalized 0 → 1 (left → right)
   y: number; // normalized 0 → 1 (top → bottom)
   role: string;
+  name?: string;
 }
 
 export function applyFormation(

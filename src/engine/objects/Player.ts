@@ -6,6 +6,7 @@ export class Player extends BaseObject {
   color: string;
   radius = 16;
   role?: string;
+  name?: string;
 
   constructor(
     id: string,
@@ -13,12 +14,12 @@ export class Player extends BaseObject {
     y: number,
     number: number,
     color = "#ff3b3b",
-    // role: string,
+    name: string,
   ) {
     super(id, x, y, 0);
     this.number = number;
     this.color = color;
-    // this.role = role;
+    this.name = name;
     this.draggable = true;
     this.selectable = true;
     this.undoable = false;
@@ -85,7 +86,7 @@ export class Player extends BaseObject {
     ctx.font = "bold 11px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    ctx.fillText(this.role || "", this.x, this.y + this.radius + 6);
+    ctx.fillText(this.name || "", this.x, this.y + this.radius + 6);
   }
 
   isHit(x: number, y: number): boolean {
@@ -101,7 +102,7 @@ export class Player extends BaseObject {
       this.y,
       this.number,
       this.color,
-      // this.role || "",
+      this.name || ""
     );
     p.isSelected = this.isSelected;
     return p;

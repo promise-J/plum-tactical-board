@@ -90,56 +90,56 @@ export function applyFormation(
 
 export const FORMATIONS: Record<string, FormationSlot[]> = {
   "3-5-2": [ // 3-5-2
-    { x: 0.17, y: 0.50, role: 'LB' }, // GK - 1
-    { x: 0.26, y: 0.64, role: 'LB' }, // LB - 2
-    { x: 0.35, y: 0.50, role: 'LB' }, // LCB - 4
-    { x: 0.25, y: 0.50, role: 'LB' }, // RCB - 5
-    { x: 0.37, y: 0.35, role: 'LB' }, // RB - 3
-    { x: 0.26, y: 0.36, role: 'LB' },  // LCM - 6
-    { x: 0.37, y: 0.64, role: 'LB' },  // CM - 8
-    { x: 0.47, y: 0.58, role: 'LB' },  // RCM - 10
-    { x: 0.40, y: 0.10, role: 'LB' }, // LW - 7
-    { x: 0.47, y: 0.42, role: 'LB' },  // ST - 9
-    { x: 0.40, y: 0.90, role: 'LB' }  //RW - 11
+    { x: 0.17, y: 0.50, role: 'LB', name: 'Gk' }, // GK - 1
+    { x: 0.26, y: 0.64, role: 'LB', name: 'LB' }, // LB - 2
+    { x: 0.35, y: 0.50, role: 'DMF', name: 'LB' }, // LCB - 4
+    { x: 0.25, y: 0.50, role: 'RCB', name: 'LB' }, // RCB - 5
+    { x: 0.37, y: 0.35, role: 'RB', name: 'LB' }, // RB - 3
+    { x: 0.26, y: 0.36, role: 'LCB', name: 'LB' },  // LCM - 6
+    { x: 0.37, y: 0.64, role: 'CM', name: 'LB' },  // CM - 8
+    { x: 0.47, y: 0.58, role: 'SS', name: 'LB' },  // RCM - 10
+    { x: 0.40, y: 0.10, role: 'LW', name: 'LB' }, // LW - 7
+    { x: 0.47, y: 0.42, role: 'ST', name: 'LB' },  // ST - 9
+    { x: 0.40, y: 0.90, role: 'RB', name: 'LB' }  //RW - 11
   ],
   "4-3-3": [ // 4-3-3
-    { x: 0.17, y: 0.50, role: 'GK'}, // GK - 1
-    { x: 0.29, y: 0.75, role: 'RB' }, // LB - 2
-    { x: 0.37, y: 0.37, role: 'DMF' }, // LCB - 4
-    { x: 0.25, y: 0.57, role: 'RCB' }, // RCB - 5
-    { x: 0.29, y: 0.25, role: 'LB' }, // RB - 3
-    { x: 0.25, y: 0.44, role: 'LCB' },  // LCM - 6
-    { x: 0.37, y: 0.63, role: 'CM' },  // CM - 8
-    { x: 0.39, y: 0.50, role: 'AMF' },  // RCM - 10
-    { x: 0.45, y: 0.10, role: 'LW' }, // LW - 7
-    { x: 0.47, y: 0.50, role: 'ST' },  // ST - 9
-    { x: 0.45, y: 0.90, role: 'RW' }  //RW - 11
+    { x: 0.17, y: 0.50, role: 'GK', name: 'LB'}, // GK - 1
+    { x: 0.29, y: 0.75, role: 'RB', name: 'LB' }, // LB - 2
+    { x: 0.37, y: 0.37, role: 'DMF', name: 'LB' }, // LCB - 4
+    { x: 0.25, y: 0.57, role: 'RCB', name: 'LB' }, // RCB - 5
+    { x: 0.29, y: 0.25, role: 'LB', name: 'LB' }, // RB - 3
+    { x: 0.25, y: 0.44, role: 'LCB', name: 'LB' },  // LCM - 6
+    { x: 0.37, y: 0.63, role: 'CM', name: 'LB' },  // CM - 8
+    { x: 0.39, y: 0.50, role: 'AMF', name: 'LB' },  // RCM - 10
+    { x: 0.45, y: 0.10, role: 'LW', name: 'LB' }, // LW - 7
+    { x: 0.47, y: 0.50, role: 'ST', name: 'LB' },  // ST - 9
+    { x: 0.45, y: 0.90, role: 'RW', name: 'LB' }  //RW - 11
   ],
   "4-2-3-1": [ // 4-2-3-1
-    { x: 0.17, y: 0.50, role: 'LB' }, // GK - 1
-    { x: 0.29, y: 0.75, role: 'LB' }, // LB - 2
-    { x: 0.33, y: 0.40, role: 'LB' }, // LCB - 4
-    { x: 0.25, y: 0.57, role: 'LB' }, // RCB - 5
-    { x: 0.29, y: 0.25, role: 'LB' }, // RB - 3
-    { x: 0.25, y: 0.44, role: 'LB' },  // LCM - 6
-    { x: 0.33, y: 0.60, role: 'LB' },  // CM - 8
-    { x: 0.39, y: 0.50, role: 'LB' },  // RCM - 10
-    { x: 0.45, y: 0.10, role: 'LB' }, // LW - 7
-    { x: 0.47, y: 0.50, role: 'LB' },  // ST - 9
-    { x: 0.45, y: 0.90, role: 'LB' }  //RW - 11
+    { x: 0.17, y: 0.50, role: 'LB', name: 'LB' }, // GK - 1
+    { x: 0.29, y: 0.75, role: 'LB', name: 'LB' }, // LB - 2
+    { x: 0.33, y: 0.40, role: 'LB', name: 'LB' }, // LCB - 4
+    { x: 0.25, y: 0.57, role: 'LB', name: 'LB' }, // RCB - 5
+    { x: 0.29, y: 0.25, role: 'LB', name: 'LB' }, // RB - 3
+    { x: 0.25, y: 0.44, role: 'LB', name: 'LB' },  // LCM - 6
+    { x: 0.33, y: 0.60, role: 'LB', name: 'LB' },  // CM - 8
+    { x: 0.39, y: 0.50, role: 'LB', name: 'LB' },  // RCM - 10
+    { x: 0.45, y: 0.10, role: 'LB', name: 'LB' }, // LW - 7
+    { x: 0.47, y: 0.50, role: 'LB', name: 'LB' },  // ST - 9
+    { x: 0.45, y: 0.90, role: 'LB', name: 'LB' }  //RW - 11
   ],
   "4-4-2": [ //4-4-2
-    { x: 0.17, y: 0.50, role: 'GK' }, // GK - 1
-    { x: 0.29, y: 0.75, role: 'RB' }, // LB - 2
-    { x: 0.36, y: 0.40, role: 'DMF' }, // LCB - 4
-    { x: 0.25, y: 0.57, role: 'RCB' }, // RCB - 5
-    { x: 0.29, y: 0.25, role: 'LB' }, // RB - 3
-    { x: 0.25, y: 0.44, role: 'LCB' },  // LCM - 6
-    { x: 0.36, y: 0.60, role: 'CMF' },  // CM - 8
-    { x: 0.47, y: 0.58, role: 'SS' },  // RCM - 10
-    { x: 0.40, y: 0.10, role: 'LW' }, // LW - 7
-    { x: 0.47, y: 0.42, role: 'ST' },  // ST - 9
-    { x: 0.40, y: 0.90, role: 'RW' }  //RW - 11
+    { x: 0.17, y: 0.50, role: 'GK', name: 'LB' }, // GK - 1
+    { x: 0.29, y: 0.75, role: 'RB', name: 'LB' }, // LB - 2
+    { x: 0.36, y: 0.40, role: 'DMF', name: 'LB' }, // LCB - 4
+    { x: 0.25, y: 0.57, role: 'RCB', name: 'LB' }, // RCB - 5
+    { x: 0.29, y: 0.25, role: 'LB', name: 'LB' }, // RB - 3
+    { x: 0.25, y: 0.44, role: 'LCB', name: 'LB' },  // LCM - 6
+    { x: 0.36, y: 0.60, role: 'CMF', name: 'LB' },  // CM - 8
+    { x: 0.47, y: 0.58, role: 'SS', name: 'LB' },  // RCM - 10
+    { x: 0.40, y: 0.10, role: 'LW', name: 'LB' }, // LW - 7
+    { x: 0.47, y: 0.42, role: 'ST', name: 'LB' },  // ST - 9
+    { x: 0.40, y: 0.90, role: 'RW', name: 'LB' }  //RW - 11
   ],
 };
 
