@@ -77,8 +77,8 @@ export const TacticsCanvas: React.FC = () => {
     requestAnimationFrame(() => {
       resize();
 
-      const homePlayers = createStartingXI(homeKit, homeGk, homePlayerNames);
-      const awayPlayers = createStartingXI(awayKit, awayGk, awayPlayerNames);
+      const homePlayers = createStartingXI('home', homeKit, homeGk, homePlayerNames);
+      const awayPlayers = createStartingXI('away', awayKit, awayGk, awayPlayerNames);
       homePlayersRef.current = homePlayers;
       awayPlayersRef.current = awayPlayers;
 
@@ -93,6 +93,16 @@ export const TacticsCanvas: React.FC = () => {
         applyFormation(homePlayers, homeFormation, width, height);
         applyFormation(awayPlayers, awayFormation, width, height);
       }
+
+       // Position extras (subs) near keepers' end
+       homePlayers.slice(11, 16).forEach((p, idx) => {
+        p.x = 525;  // Center of field
+        p.y = 600 + idx * 40;  // Stacked vertically near bottom (home keeper's end)
+      });
+      awayPlayers.slice(11, 16).forEach((p, idx) => {
+        p.x = 190;  // Center of field
+        p.y = 90 + idx * 40;  // Stacked vertically near top (away keeper's end)
+      });
 
       homePlayers.forEach((p) => {
         renderer.addObject(p);
@@ -115,6 +125,25 @@ export const TacticsCanvas: React.FC = () => {
         renderer.setTool(new DragTool(renderer)); // Or whatever default tool
         setSelectedPlayer(null);
       });
+
+      if (activeTeam == "home") {
+        applyFormation(homePlayers.slice(0, 11), homeFormation, width, height);
+        // Reposition home extras
+        homePlayers.slice(11, 16).forEach((p, idx) => {
+          p.x = 190;
+          // p.x = 525;
+          // p.y = 600 + idx * 40;
+          p.y = 90 + idx * 40;
+        });
+      }
+      if (activeTeam == "away") {
+        applyFormation(awayPlayers.slice(0, 11), awayFormation, width, height);
+        // Reposition away extras
+        awayPlayers.slice(11, 16).forEach((p, idx) => {
+          p.x = 525;
+          p.y = 40 + idx * 40;
+        });
+      }
 
       renderer.render();
     });
@@ -172,29 +201,64 @@ export const TacticsCanvas: React.FC = () => {
     setEditNumber(player.number);
   };
 
-  
+
+// src/components/canvas/TacticsCanvas.tsx
+// ... (existing code)
+
 const handleSavePlayerEdit = () => {
   if (!selectedPlayer) return;
 
-  const allPlayers = [...homePlayersRef.current, ...awayPlayersRef.current];
-  const isNumberTaken = allPlayers.some(p => p !== selectedPlayer && p.number === editNumber);
-  const originalNumber = selectedPlayer.number;  // <-- NEW: Track original number
-  const numberChanged = editNumber !== originalNumber;  // <-- NEW: Check if changed
+  // const allPlayers = [...homePlayersRef.current, ...awayPlayersRef.current];
+  const originalNumber = selectedPlayer.number;
+  const numberChanged = editNumber !== originalNumber;
 
-  // UPDATED: Only check uniqueness if the number changed
-  if (editNumber <= 0 || (numberChanged && isNumberTaken)) {
+  // FIXED: Only check uniqueness if the number changed (no need to exclude selectedPlayer when reverting)
+  const isHomePlayer = homePlayersRef.current.some(p => p.id === selectedPlayer.id);
+  const teamPlayers = isHomePlayer ? homePlayersRef.current : awayPlayersRef.current;
+  const isNumberTaken = teamPlayers.some(p => p !== selectedPlayer && p.number === editNumber);
+  // const isNumberTaken = numberChanged && allPlayers.some(p => p !== selectedPlayer && p.number === editNumber);
+
+  if (editNumber <= 0 || isNumberTaken) {
+    console.log({editNumber, isNumberTaken, originalNumber})
     alert(`Number must be positive${numberChanged ? " and unique" : ""}!`);
     return;
   }
 
-  // Update player
-  selectedPlayer.name = editName;
+  // Update the selectedPlayer directly
+  selectedPlayer.name = editName.trim();
   selectedPlayer.number = editNumber;
-  rendererRef.current?.render();
 
-  // Close modal
+  // Sync the refs (for both home and away)
+  const homeIndex = homePlayersRef.current.findIndex(p => p.id === selectedPlayer.id);
+  if (homeIndex !== -1) {
+    homePlayersRef.current[homeIndex] = selectedPlayer;
+  } else {
+    const awayIndex = awayPlayersRef.current.findIndex(p => p.id === selectedPlayer.id);
+    if (awayIndex !== -1) {
+      awayPlayersRef.current[awayIndex] = selectedPlayer;
+    } else {
+      // Optional: Handle error if needed
+    }
+  }
+
+  // Force re-sync of renderer objects with updated refs (to prevent stale objects)
+  const renderer = rendererRef.current;
+  if (renderer) {
+    renderer.clear();  // Clear objects
+    homePlayersRef.current.forEach(p => renderer.addObject(p));
+    awayPlayersRef.current.forEach(p => renderer.addObject(p));
+    if (ballRef.current) renderer.addObject(ballRef.current);
+  }
+
+  // FIXED: Reset the highlight before closing
+  selectedPlayer.isSelected = false;
+
   setSelectedPlayer(null);
 };
+
+// ... (rest of the component)
+
+// ... (rest of the component)
 
   // const handleSavePlayerEdit = () => {
   //   if (!selectedPlayer) return;

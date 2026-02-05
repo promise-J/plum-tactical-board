@@ -14,7 +14,7 @@ export class Player extends BaseObject {
     y: number,
     number: number,
     color = "#ff3b3b",
-    name: string,
+    name: string
   ) {
     super(id, x, y, 0);
     this.number = number;
@@ -35,7 +35,7 @@ export class Player extends BaseObject {
     ctx.stroke();
   }
 
-  // draw(ctx: CanvasRenderingContext2D) {
+  
   //   // circle
   //   ctx.beginPath();
   //   ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -59,34 +59,72 @@ export class Player extends BaseObject {
   //   // ctx.fillText(this.number.toString(), this.x, this.y);
   // }
 
+  // draw(ctx: CanvasRenderingContext2D) {
+  //   const RADIUS = 16;
+
+  //   // Player circle
+  //   ctx.beginPath();
+  //   ctx.arc(this.x, this.y, RADIUS, 0, Math.PI * 2);
+  //   ctx.fillStyle = this.color || "#ff3b3b";
+  //   ctx.fill();
+  //   ctx.closePath();
+
+  //   // Outline
+  //   ctx.strokeStyle = "#ffffff";
+  //   ctx.lineWidth = 2;
+  //   ctx.stroke();
+
+  //   // Player number
+  //   ctx.fillStyle = "#ffffff";
+  //   // ctx.font = `${this.radius}px bold Arial`;
+  //   ctx.font = "bold 14px sans-serif";
+  //   ctx.textAlign = "center";
+  //   ctx.textBaseline = "middle";
+  //   ctx.fillText(String(this.number), this.x, this.y);
+
+  //   // Position (below)
+  //   ctx.fillStyle = "#00ffff";
+  //   // ctx.font = "bold 11px Arial";
+  //   ctx.font = "bold 12px sans-serif";
+  //   ctx.textAlign = "center";
+  //   ctx.textBaseline = "top";
+  //   const displayText = (this.name || `Player ${this.number}`).trim(); // <-- UPDATED: Trim to avoid hidden spaces
+  //   const textY = this.y + this.radius + 8; // <-- UPDATED: Slightly lower position
+  //   ctx.fillText(displayText, this.x, textY);
+  //   ctx.restore();
+  //   ctx.fillText(this.name || "", this.x, this.y + this.radius + 6);
   draw(ctx: CanvasRenderingContext2D) {
     const RADIUS = 16;
-
+  
     // Player circle
     ctx.beginPath();
     ctx.arc(this.x, this.y, RADIUS, 0, Math.PI * 2);
     ctx.fillStyle = this.color || "#ff3b3b";
     ctx.fill();
     ctx.closePath();
-
+  
     // Outline
     ctx.strokeStyle = "#ffffff";
     ctx.lineWidth = 2;
     ctx.stroke();
-
+  
     // Player number
     ctx.fillStyle = "#ffffff";
-    ctx.font = `${this.radius}px bold Arial`;
+    ctx.font = "bold 14px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(String(this.number), this.x, this.y);
-
-    // Position (below)
-    ctx.fillStyle = "#00ffff";
-    ctx.font = "bold 11px Arial";
+  
+    // Position (below) - FIXED: Single, properly wrapped text drawing
+    ctx.save();  // <-- Ensure context is saved
+    ctx.fillStyle = "#000000";  // <-- CHANGED: Black for visibility (not cyan)
+    ctx.font = "bold 12px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    ctx.fillText(this.name || "", this.x, this.y + this.radius + 6);
+    const displayText = (this.name || `Player ${this.number}`).trim();
+    const textY = this.y + this.radius + 8;
+    ctx.fillText(displayText, this.x, textY);
+    ctx.restore();  // <-- Properly restore context
   }
 
   isHit(x: number, y: number): boolean {

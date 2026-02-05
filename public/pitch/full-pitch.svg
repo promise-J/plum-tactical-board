@@ -23,10 +23,6 @@
     <circle cx="525" cy="340" r="91" />
     <circle cx="525" cy="340" r="6" fill="#ffffff" />
 
-    <!-- Penalty areas (16.5 m / wider & shallower look) -->
-    <rect x="75"  y="164" width="275" height="352" />
-    <rect x="700" y="164" width="275" height="352" />
-
     <!-- Goal areas (5.5 m boxes) -->
     <rect x="75"  y="220" width="110" height="240" />
     <rect x="865" y="220" width="110" height="240" />

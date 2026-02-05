@@ -29,12 +29,14 @@ export const TeamSetupModal: React.FC<Props> = ({
   homePlayerNames,
   awayPlayerNames,
   setHomePlayerNames,
-  setAwayPlayerNames
+  setAwayPlayerNames,
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
       <div className="bg-white p-6 rounded-lg w-full max-w-[600px] max-h-[80vh] overflow-y-auto space-y-6 shadow-lg">
-        <h2 className="text-xl font-bold text-center text-gray-800">Match Setup</h2>
+        <h2 className="text-xl font-bold text-center text-gray-800">
+          Match Setup
+        </h2>
 
         {/* Home Team Section */}
         <div className="space-y-4">
@@ -50,7 +52,9 @@ export const TeamSetupModal: React.FC<Props> = ({
               />
             </div>
             <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Goalkeeper Kit</label>
+              <label className="text-sm text-gray-600 mb-1">
+                Goalkeeper Kit
+              </label>
               <input
                 type="color"
                 value={homeGk}
@@ -75,7 +79,9 @@ export const TeamSetupModal: React.FC<Props> = ({
               />
             </div>
             <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Goalkeeper Kit</label>
+              <label className="text-sm text-gray-600 mb-1">
+                Goalkeeper Kit
+              </label>
               <input
                 type="color"
                 value={awayGk}
@@ -88,47 +94,65 @@ export const TeamSetupModal: React.FC<Props> = ({
 
         {/* Home Team Player Names */}
         <div className="space-y-4">
-          <h3 className="font-semibold text-lg text-gray-700">Home Team Player Names</h3>
+          <h3 className="font-semibold text-lg text-gray-700">
+            Home Team Player Names
+          </h3>
           <div className="grid grid-cols-2 gap-3">
-            {homePlayerNames.map((name, i) => (
-              <div key={i} className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Player {i + 1}</label>
-                <input
-                  type="text"
-                  placeholder={`Player ${i + 1}`}
-                  value={name}
-                  onChange={(e) => {
-                    const newNames = [...homePlayerNames];
-                    newNames[i] = e.target.value;
-                    setHomePlayerNames(newNames);
-                  }}
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            ))}
+            {homePlayerNames.map(
+              (
+                name,
+                i // <-- Now 16
+              ) => (
+                <div key={i} className="flex flex-col">
+                  <label className="text-sm text-gray-600 mb-1">
+                    Player {i + 1}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={`Player ${i + 1}`}
+                    value={name}
+                    onChange={(e) => {
+                      const newNames = [...homePlayerNames];
+                      newNames[i] = e.target.value;
+                      setHomePlayerNames(newNames);
+                    }}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              )
+            )}
           </div>
         </div>
 
         {/* Away Team Player Names */}
         <div className="space-y-4">
-          <h3 className="font-semibold text-lg text-gray-700">Away Team Player Names</h3>
+          <h3 className="font-semibold text-lg text-gray-700">
+            Away Team Player Names
+          </h3>
           <div className="grid grid-cols-2 gap-3">
-            {awayPlayerNames.map((name, i) => (
-              <div key={i} className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Player {i + 1}</label>
-                <input
-                  type="text"
-                  placeholder={`Player ${i + 1}`}
-                  value={name}
-                  onChange={(e) => {
-                    const newNames = [...awayPlayerNames];
-                    newNames[i] = e.target.value;
-                    setAwayPlayerNames(newNames);
-                  }}
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            ))}
+            {awayPlayerNames.map(
+              (
+                name,
+                i // <-- Now 16
+              ) => (
+                <div key={i} className="flex flex-col">
+                  <label className="text-sm text-gray-600 mb-1">
+                    Player {i + 1}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={`Player ${i + 1}`}
+                    value={name}
+                    onChange={(e) => {
+                      const newNames = [...awayPlayerNames];
+                      newNames[i] = e.target.value;
+                      setAwayPlayerNames(newNames);
+                    }}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              )
+            )}
           </div>
         </div>
 
