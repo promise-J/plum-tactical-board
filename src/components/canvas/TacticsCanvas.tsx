@@ -94,14 +94,20 @@ export const TacticsCanvas: React.FC = () => {
         applyFormation(awayPlayers, awayFormation, width, height);
       }
 
+      const subWidth = containerRef.current!.clientWidth;
+      const subHeight = containerRef.current!.clientHeight;
        // Position extras (subs) near keepers' end
        homePlayers.slice(11, 16).forEach((p, idx) => {
-        p.x = 525;  // Center of field
-        p.y = 600 + idx * 40;  // Stacked vertically near bottom (home keeper's end)
+        // p.x = 525;
+        // p.y = 600 + idx * 40;
+        p.x = subWidth * 0.75;           // right side
+        p.y = subHeight - (100 + idx * 40);
       });
       awayPlayers.slice(11, 16).forEach((p, idx) => {
-        p.x = 190;  // Center of field
-        p.y = 90 + idx * 40;  // Stacked vertically near top (away keeper's end)
+        // p.x = 190;
+        // p.y = 90 + idx * 40;
+        p.x = subWidth * 0.85;           // left side (mirror of 0.75)
+        p.y = 100 + idx * 40;  
       });
 
       homePlayers.forEach((p) => {

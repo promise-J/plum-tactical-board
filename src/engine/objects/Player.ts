@@ -117,7 +117,7 @@ export class Player extends BaseObject {
   
     // Position (below) - FIXED: Single, properly wrapped text drawing
     ctx.save();  // <-- Ensure context is saved
-    ctx.fillStyle = "#000000";  // <-- CHANGED: Black for visibility (not cyan)
+    ctx.fillStyle = "#F2F2F2";  // <-- CHANGED: Black for visibility (not cyan)
     ctx.font = "bold 12px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
