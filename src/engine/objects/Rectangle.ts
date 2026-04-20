@@ -89,7 +89,6 @@ export class Rectangle extends BaseObject {
   //   }
 
   getResizeHandle(x: number, y: number): ResizeHandle {
-    const size = 6;
 
     if (this.isNear(x, y, this.x, this.y)) return "nw";
     if (this.isNear(x, y, this.x + this.width, this.y)) return "ne";

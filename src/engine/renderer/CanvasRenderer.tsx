@@ -81,6 +81,11 @@ export class CanvasRenderer {
 
       // Hover logic
       const hit = this.getObjectAt(x, y);
+
+      if (this.hoveredObject && this.hoveredObject !== hit) {
+        this.hoveredObject.isHovered = false;
+      }
+
       if (hit && hit.draggable) {
         this.hoveredObject = hit;
         hit.isHovered = true
@@ -235,10 +240,6 @@ export class CanvasRenderer {
     const snapshot = this.objects
       .filter(o => o.undoable)
       .map(o => o.clone());
-
-      const selectedIds = this.objects
-      .filter(o => o.isSelected)
-      .map(o => o.id);
   
       // this.undoStack.push({ objects: snapshot, selectedIds });
     this.undoStack.push(snapshot);

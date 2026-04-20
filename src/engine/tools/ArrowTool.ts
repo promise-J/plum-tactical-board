@@ -4,16 +4,16 @@ import { CanvasRenderer } from "../renderer/CanvasRenderer";
 import type { Tool } from "./Tool";
 
 export class ArrowTool implements Tool {
-  private startX = 0;
-  private startY = 0;
+  // private startX = 0;
+  // private startY = 0;
   private currentArrow: Arrow | null = null;
 
   constructor(private renderer: CanvasRenderer) {}
 
   onMouseDown(x: number, y: number) {
     this.renderer.saveState()
-    this.startX = x;
-    this.startY = y;
+    // this.startX = x;
+    // this.startY = y;
     this.currentArrow = new Arrow(
       crypto.randomUUID(),
       x,
